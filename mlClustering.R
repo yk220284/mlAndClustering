@@ -101,13 +101,16 @@ model %>% compile(
 )
 
 #Training and Evaluation
-#Use the fit() function to train the model for 30 epochs using batches of 128 images:
+
 history <- model %>% fit(
   x_train, 
   y_train, 
   epochs = 30, batch_size = 128, 
   validation_split = 0.2
 )
+#Use the fit() function to train the model for 30 epochs using batches of 128 images:
+
+
 
 model %>% evaluate(x_test, y_test)
 
@@ -126,4 +129,24 @@ x_train <- as.matrix(x_train)
 dimnames(x_train) <- NULL
 y_train <- as.matrix(y_train)
 x_train <- normalize(x_train)
+
+
+#test random data
+random_index <- (1:300000)
+random_index = sample(size = 100000,random_index)
+y_test <- y_train[random_index]
+x_test <- data_ready[random_index,]
+x_test <- select(x_test,-Target_xianjinbao)
+x_test <- as.matrix(x_test)
+x_test <- x_test[,-1]
+dimnames(x_test) <- NULL
+x_test <- normalize(x_test)
+
+
+
+
+
+model %>% evaluate(x_test, y_test)
+pred <- model %>% predict_classes(x_test)
+
 
